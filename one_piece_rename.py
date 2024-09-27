@@ -84,6 +84,13 @@ def convert_episode(episode: int) -> str:
     """
     Looks up the `S03E12` style notation for the Nth episode
     """
+
+    # NOTE: Japanese episode 590 is the one cross-over one and it is missing from the TVDB listing which 
+    #       Sonarr and other tools use. Therefore, it is *not* S16E12, but the 591 is S16E12. And all 
+    #       following episodes should compensate for that.
+    if episode > 590:
+        episode -= 1
+
     season = 1
     while episode > EPISODES_PER_SEASON[season]:
         episode -= EPISODES_PER_SEASON[season]

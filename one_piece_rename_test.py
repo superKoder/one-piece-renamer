@@ -28,9 +28,18 @@ class OnePieceRenameTests(unittest.TestCase):
         self.assertEqual(convert_episode(382), "S13E01")
         self.assertEqual(convert_episode(481), "S13E100")
 
-        # Season 21 has 194 episodes, from 891 to 1084
-        self.assertEqual(convert_episode(891), "S21E01")
-        self.assertEqual(convert_episode(1084), "S21E194")
+        # Season 13 has 100 episodes, from 382 to 481
+        self.assertEqual(convert_episode(382), "S13E01")
+        self.assertEqual(convert_episode(481), "S13E100")
+
+        # Season 16 is a special case!!!
+        # It has 49 episodes, from 579 to 589 and from 591 to 628, skipping 590
+        self.assertEqual(convert_episode(579), "S16E01")
+        self.assertEqual(convert_episode(628), "S16E49")
+
+        # Season 21 has 194 episodes, from 892 to 1085
+        self.assertEqual(convert_episode(892), "S21E01")
+        self.assertEqual(convert_episode(1085), "S21E194")
 
     def test_improved_filename(self):
 
@@ -48,11 +57,19 @@ class OnePieceRenameTests(unittest.TestCase):
         self.assertEqual(convert_filename(
             "One Piece 123.mkv"), "One Piece S07E32.mkv")
 
+        # Check the special case of the skipped episode 590
+        self.assertEqual(convert_filename(
+            "One Piece 589.mkv"), "One Piece S16E11.mkv")
+        self.assertEqual(convert_filename(
+            "One Piece 591.mkv"), "One Piece S16E12.mkv")
+        self.assertEqual(convert_filename(
+            "One Piece 601.mkv"), "One Piece S16E22.mkv")
+
         # Real-word examples that need renaming
         self.assertEqual(convert_filename("One Piece - 758 (1080p FUNI WEB-DL -KS-).mkv"),
-                         "One Piece S18E13 (1080p FUNI WEB-DL -KS-).mkv")
+                         "One Piece S18E12 (1080p FUNI WEB-DL -KS-).mkv")
         self.assertEqual(convert_filename("One Piece 758 (1080p FUNI WEB-DL -KS-).mkv"),
-                         "One Piece S18E13 (1080p FUNI WEB-DL -KS-).mkv")
+                         "One Piece S18E12 (1080p FUNI WEB-DL -KS-).mkv")
 
         # Real-word examples that don't need renaming
         self.assertEqual(convert_filename("One Piece S03E10 (1080p FUNI WEB-DL -KS-).mkv"),
@@ -62,13 +79,13 @@ class OnePieceRenameTests(unittest.TestCase):
 
         # Real-word special cases that need renaming
         self.assertEqual(convert_filename("One Piece - 717 - Trueno Bastardo! Kyros' Furious Strike! (1080p FUNI WEB-DL -KS-).mkv"),
-                         "One Piece S17E90 - Trueno Bastardo! Kyros' Furious Strike! (1080p FUNI WEB-DL -KS-).mkv")
+                         "One Piece S17E89 - Trueno Bastardo! Kyros' Furious Strike! (1080p FUNI WEB-DL -KS-).mkv")
         self.assertEqual(convert_filename("One Piece - 711 - The Man's Pride! Bellamy's Last Charge! (1080p FUNI WEB-DL -KS-).mkv"),
-                         "One Piece S17E84 - The Man's Pride! Bellamy's Last Charge! (1080p FUNI WEB-DL -KS-).mkv")
+                         "One Piece S17E83 - The Man's Pride! Bellamy's Last Charge! (1080p FUNI WEB-DL -KS-).mkv")
         self.assertEqual(convert_filename("One Piece - 729 - Flame Dragon King! Protect Luffy's Life! (1080p FUNI WEB-DL -KS-).mkv"),
-                         "One Piece S17E102 - Flame Dragon King! Protect Luffy's Life! (1080p FUNI WEB-DL -KS-).mkv")
+                         "One Piece S17E101 - Flame Dragon King! Protect Luffy's Life! (1080p FUNI WEB-DL -KS-).mkv")
         self.assertEqual(convert_filename("One Piece - 655 (1080p FUNI WEB-DL AAC2.0 -KS-).mkv"),
-                         "One Piece S17E28 (1080p FUNI WEB-DL AAC2.0 -KS-).mkv")
+                         "One Piece S17E27 (1080p FUNI WEB-DL AAC2.0 -KS-).mkv")
 
         # Real-word special cases that don't need renaming
         self.assertEqual(convert_filename("One Piece S04E13 Through the Sky They Soar! The 1000 Year Legend Lives Again!.mkv"),
